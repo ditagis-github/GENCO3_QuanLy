@@ -1,0 +1,14 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "es6",
+    "module": "amd",
+    "removeComments": true,
+    "rootDirs": [
+      "public/javascripts",
+      "sub-sothongtintruyenthong/public/javascripts",
+      "sub-doanhnghiep/public/javascripts",
+      "sub-sbnk/public/javascripts",
+    ]
+  }
+}
