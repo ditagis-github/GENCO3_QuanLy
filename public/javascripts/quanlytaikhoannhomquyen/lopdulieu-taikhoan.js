@@ -31,7 +31,7 @@ $(document).ready(function () {
                         dataType: 'json'
                     },
                     read: {
-                        url: location.href + `&t=danhsach&account=${dataItem.ID}`,
+                        url: location.href + `&t=danhsach&account=${dataItem.Username}`,
                         dataType: "json"
                     },
                 },
@@ -141,7 +141,7 @@ $(document).ready(function () {
     
     $('#btnToolbar').click(function (e) {
         kendo.ui.progress($('#table'), true)
-        let id = listbox.dataItem(listbox.select())['ID'];
+        let id = listbox.dataItem(listbox.select())['Username'];
         $.post('', {
             Account: id
         }).done(function (e) {

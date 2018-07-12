@@ -36,7 +36,7 @@ $(document).ready(function () {
                     kendo.ui.progress($('#listbox1'), false)
                 })
             kendo.ui.progress($('#listbox2'), true)
-            $.get(location.href + `&t=danhsach&table=role_capability&role=${dataItem.ID}`)
+            $.get(location.href + `&t=danhsach&table=capability_role&role=${dataItem.ID}`)
                 .done(function (rows) {
                     listbox2.setDataSource(new kendo.data.DataSource({
                         sort: {
@@ -97,11 +97,11 @@ $(document).ready(function () {
                     });
             }
             for (const item of adds) {
-                $.post('/rest/sys_role_capability', item);
+                $.post('/rest/sys_capability_role', item);
             }
             for (const item of removes) {
                 $.ajax({
-                    url: '/rest/sys_role_capability',
+                    url: '/rest/sys_capability_role',
                     type: 'delete',
                     data: {
                         where: `ROLE = '${item['Role']}' AND CAPABILITY = '${item['Capability']}'`
@@ -142,7 +142,7 @@ $(document).ready(function () {
                     case 'Chọn là chức năng chính':
                         let primaryCapability = listbox2.dataItem(listbox2.select()).ID;
                         $.ajax({
-                            url: '/rest/sys_role_capability',
+                            url: '/rest/sys_capability_role',
                             dataType: 'json',
                             type: 'PUT',
                             data: {
@@ -156,7 +156,7 @@ $(document).ready(function () {
                         break;
                     case 'Xem chức năng chính':
                         $.ajax({
-                            url: `/rest/sys_role_capability?where=ROLE = '${role}' AND ISPRIMARY = 1`,
+                            url: `/rest/sys_capability_role?where=ROLE = '${role}' AND ISPRIMARY = 1`,
                             dataType: 'json',
                             type: 'GET',
                             success: function (result) {

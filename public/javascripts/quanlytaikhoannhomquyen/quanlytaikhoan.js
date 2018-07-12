@@ -239,11 +239,7 @@ function renderTable(window, columns, dataSource, options={}) {
                     columns: "Cột"
                 }
             },
-            groupable: {
-                messages: {
-                    empty: "Kéo cột lên vị trí này"
-                }
-            },
+            groupable: false,
             sortable: true,
             pageable: {
                 pageSizes: 10,

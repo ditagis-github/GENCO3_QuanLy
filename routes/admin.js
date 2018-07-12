@@ -67,7 +67,7 @@ router.get('/quan-ly-tai-khoan-nhom-quyen', function (req, res) {
                 res.status(400).send();
               })
               break;
-            case 'role_capability':
+            case 'capability_role':
               db.select(`SELECT RC.*,C.NAME AS Capability_Name FROM SYS_Capability_Role AS RC INNER JOIN SYS_CAPABILITY AS C ON RC.CAPABILITY = C.ID WHERE RC.ROLE = '${role}'`).then(function (rows) {
                 let results = {
                   Role: role,
@@ -120,8 +120,8 @@ router.get('/quan-ly-tai-khoan-nhom-quyen', function (req, res) {
                 res.status(400).send();
               })
               break;
-            case 'account_capability':
-              db.select(`SELECT RC.*,C.NAME AS Capability_Name FROM SYS_Capability_Account AS RC INNER JOIN SYS_CAPABILITY AS C ON RC.CAPABILITY = C.ID WHERE RC.ACCOUNT = ${account}`).then(function (rows) {
+            case 'capability_account':
+              db.select(`SELECT RC.*,C.NAME AS Capability_Name FROM SYS_Capability_Account AS RC INNER JOIN SYS_CAPABILITY AS C ON RC.CAPABILITY = C.ID WHERE RC.ACCOUNT = '${account}'`).then(function (rows) {
                 let results = {
                   Account: account,
                   Capabilities: []
@@ -178,7 +178,7 @@ router.get('/quan-ly-tai-khoan-nhom-quyen', function (req, res) {
           db.select(`SELECT SYS_LAYER_ACCOUNT.*, SYS_LAYER.TITLE AS LayerName, SYS_GroupLayer.Name AS LayerGroup FROM SYS_LAYER_ACCOUNT 
         INNER JOIN SYS_LAYER ON SYS_LAYER.ID = SYS_LAYER_ACCOUNT.LAYER
         INNER JOIN SYS_GroupLayer ON SYS_GroupLayer.Id = SYS_LAYER.GroupID
-        WHERE ACCOUNT = ${account}`).then(function (rows) {
+        WHERE ACCOUNT = '${account}'`).then(function (rows) {
             res.status(200).send(rows);
           })
         } else
@@ -224,12 +224,11 @@ router.post('/quan-ly-tai-khoan-nhom-quyen', function (req, res) {
         if (m === 'lop-du-lieu-tai-khoan') {
           table = 'ACCOUNT'
           tableId = req.body['Account'];
-          where = `${table}=${tableId}`
         } else {
           table = 'ROLE'
           tableId = req.body['Role'];
-          where = `${table}='${tableId}'`
         }
+        where = `${table}='${tableId}'`
         let promises = [];
         promises.push(db.select('SELECT ID FROM SYS_LAYER'));
         promises.push(db.select(`SELECT Layer FROM SYS_LAYER_${table} WHERE ${where}`))
@@ -244,7 +243,7 @@ router.post('/quan-ly-tai-khoan-nhom-quyen', function (req, res) {
               if (!layerAccounts.some(function (s) {
                   return s['Layer'] === item['ID']
                 })) {
-                inserts.push(`INSERT INTO SYS_LAYER_${table}(LAYER,${table}) VALUES('${item['ID']}',${m==='lop-du-lieu-tai-khoan'?tableId:"'"+tableId+"'"})`)
+                inserts.push(`INSERT INTO SYS_LAYER_${table}(LAYER,${table}) VALUES('${item['ID']}','${tableId}')`)
               }
             }
             if (inserts.length > 0) {

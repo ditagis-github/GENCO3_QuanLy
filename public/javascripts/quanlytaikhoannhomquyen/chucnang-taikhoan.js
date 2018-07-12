@@ -7,7 +7,7 @@ $(document).ready(function () {
     };
     var listbox0 = $('#listbox0').kendoListBox({
         dataTextField: 'DisplayName',
-        dataValueField: 'ID',
+        dataValueField: 'Username',
         dataSource: new kendo.data.DataSource({
             sort: {
                 field: "DisplayName",
@@ -23,7 +23,7 @@ $(document).ready(function () {
         change: function (e) {
             let dataItem = listbox0.dataItem(listbox0.select());
             kendo.ui.progress($('#listbox1'), true)
-            $.get(location.href + `&t=danhsach&table=capability&account=${dataItem.ID}`)
+            $.get(location.href + `&t=danhsach&table=capability&account=${dataItem.Username}`)
                 .done(function (rows) {
                     listbox1.setDataSource(new kendo.data.DataSource({
                         sort: {
@@ -36,7 +36,7 @@ $(document).ready(function () {
                     kendo.ui.progress($('#listbox1'), false)
                 })
             kendo.ui.progress($('#listbox2'), true)
-            $.get(location.href + `&t=danhsach&table=account_capability&account=${dataItem.ID}`)
+            $.get(location.href + `&t=danhsach&table=capability_account&account=${dataItem.Username}`)
                 .done(function (rows) {
                     listbox2.setDataSource(new kendo.data.DataSource({
                         sort: {
@@ -71,9 +71,10 @@ $(document).ready(function () {
     }).data('kendoListBox');
     var viewModel = kendo.observable({
         btnUpdateClick: function (e) {
+            kendo.ui.progress($('body'),true)
             let adds = [],
                 removes = [];
-            let account = listbox0.dataItem(listbox0.select()).ID;
+            let account = listbox0.dataItem(listbox0.select()).Username;
             let dataItemListBox1 = listbox1.dataSource.data(),
                 dataItemListBox2 = listbox2.dataSource.data();
             for (const item of dataItemListBox1) {
@@ -96,18 +97,22 @@ $(document).ready(function () {
                         Account: account
                     });
             }
+            let promises = []
             for (const item of adds) {
-                $.post('/rest/sys_account_capability', item);
+                promises.push($.post('/rest/sys_capability_account', item));
             }
             for (const item of removes) {
-                $.ajax({
-                    url: '/rest/sys_account_capability',
+                promises.push($.ajax({
+                    url: '/rest/sys_capability_account',
                     type: 'delete',
                     data: {
                         where: `ACCOUNT = '${item['Account']}' AND CAPABILITY = '${item['Capability']}'`
                     }
-                });
+                }));
             }
+            Promise.all(promises)
+            .then(_=>kendo.ui.progress($('body'),false))
+            .catch(_=>kendo.ui.progress($('body'),false))
         },
         change: function (e) {
             console.log("event: change");
@@ -144,7 +149,7 @@ $(document).ready(function () {
 
                         let primaryCapability = listbox2.dataItem(listbox2.select()).ID;
                         $.ajax({
-                            url: '/rest/sys_account_capability',
+                            url: '/rest/sys_capability_account',
                             dataType: 'json',
                             type: 'PUT',
                             data: {
@@ -158,7 +163,7 @@ $(document).ready(function () {
                         break;
                     case 'Xem chức năng chính':
                         $.ajax({
-                            url: `/rest/sys_account_capability?where=ACCOUNT = ${account} AND ISPRIMARY = 1`,
+                            url: `/rest/sys_capability_account?where=ACCOUNT = ${account} AND ISPRIMARY = 1`,
                             dataType: 'json',
                             type: 'GET',
                             success: function (result) {
@@ -166,7 +171,7 @@ $(document).ready(function () {
                                     selectItem;
                                 for (const item of listbox2.items()) {
                                     let dataItem = listbox2.dataItem(item);
-                                    if (dataItem.ID === id) {
+                                    if (dataItem.Username === id) {
                                         listbox2.select(item);
                                         break;
                                     }
