@@ -13,6 +13,7 @@ function render(req, res, path, options = {}) {
   options.User = req.session.passport.user;
   let route = appRoute.findByUrl(req.url.replace('/', ''));
   if (route) {
+    options.Heading = route.title;
     appLogger.capabilityLogs([{
       username: req.session.passport.user.Username,
       tacVu: 'Truy cập ' + route.title

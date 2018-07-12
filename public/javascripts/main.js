@@ -103,5 +103,5 @@ $(document).ready(function () {
             $('#page-wrapper').css("margin-left",0)
         }
     });
-    $("#sideNav").click();
+    // $("#sideNav").click();
 });

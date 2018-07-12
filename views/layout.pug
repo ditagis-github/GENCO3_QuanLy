@@ -62,136 +62,43 @@ head
   nav.navbar-default.navbar-side(role='navigation')
     .sidebar-collapse
       ul#main-menu.nav
-        li
-          a(class=(path.endsWith('/so-tttt/')) && 'active-menu',href='/so-tttt')
-            i.fa.fa-dashboard
-            | Tổng quan
-        if(capabilities.some(function(s){return s.startsWith('CNDL')}))
-          li
-            a(class=(path.endsWith('cap-nhat-du-lieu')) && 'active-menu',href='#')
-              i.fa.fa-sitemap
-              | Dữ liệu về hạ tầng viễn thông
-              span.fa.arrow
-            ul.nav.nav-second-level
-              li
-                a(href='xem-du-lieu') Xem dữ liệu
-              if(capabilities.some(function(s){return s.startsWith('CNDL')}))
-                li
-                  a(href='cap-nhat-du-lieu') Cập nhật dữ liệu
-                  li
-        if(capabilities.some(function(s){return s.startsWith('QLSC')}))
-          li
-            a(class=(path.endsWith('quan-ly-su-co')) && 'active-menu',href='quan-ly-su-co')
-              i.fa.fa-warning
-              | Quản lý sự cố
-        if(capabilities.some(function(s){return s.startsWith('QLQH')}))
-          li 
-            a(class=(path.endsWith('quan-ly-quy-hoach')) && 'active-menu',href='#')
-              i.fa.fa-binoculars
-              | Quản lý quy hoạch
-              span.fa.arrow
-            ul.nav.nav-second-level
-              if(capabilities.indexOf('QLQH-DCQHXD') !== -1)
-                li
-                  a(href='quan-ly-quy-hoach') Đối chiếu quy hoạch xây dựng
-              if(capabilities.indexOf('QLQH-DCHTQH') !== -1)
-                li
-                  a(href='quan-ly-quy-hoach?m=doi-chieu-hien-trang') Đối chiếu hiện trạng với quy hoạch
-              if(capabilities.indexOf('QLQH-DCHTQHXD') !== -1)
-                li
-                  a(href='quan-ly-quy-hoach?m=doi-chieu-hien-trang-quy-hoach-xay-dung') Đối chiếu hiện trạng với quy hoạch xây dựng
-        if(capabilities.some(function(s){return s.startsWith('BCTK')}))
-          li
-            a(class=(path.endsWith('bao-cao-thong-ke')) && 'active-menu',href='#')
-              i.fa.fa-bar-chart
-              | Báo cáo - thống kê
-              span.fa.arrow
-            ul.nav.nav-second-level
-              li
-                a(href="bao-cao-thong-ke?m=ht&l=su-co") Sự cố
-              li
-                a(href='#')
-                  | Hiện trạng
-                  span.fa.arrow
-                ul.nav.nav-third-level
-                  li
-                    a(href='bao-cao-thong-ke?m=ht&l=cong-trinh-vien-thong-quan-trong-lien-quan-den-an-ninh-quoc-gia') Công trình viễn thông quan trọng liên quan đến an ninh quốc gia
-                  li
-                    a(href='bao-cao-thong-ke?m=ht&l=diem-cung-cap-dich-vu-vien-thong') Điểm cung cấp dịch vụ viễn thông công cộng
-                  li
-                    a(href='bao-cao-thong-ke?m=ht&l=cot-ang-ten') Cột ăngten
-                  li
-                    a(href='bao-cao-thong-ke?m=ht&l=cot-cap-treo') Cột cáp treo
-                  li
-                    a(href='bao-cao-thong-ke?m=ht&l=cong-trinh-ha-tang-ky-thuat-ngam') Các công trình hạ tầng kỹ thuật ngầm
-              li
-                a(href='#')
-                  | Quy hoạch
-                  span.fa.arrow
-                ul
-                  li
-                    a(href='bao-cao-thong-ke?m=qh&l=cong-trinh-vien-thong-quan-trong-lien-quan-den-an-ninh-quoc-gia') Công trình viễn thông quan trọng liên quan đến an ninh quốc gia
-                  li
-                    a(href='bao-cao-thong-ke?m=qh&l=diem-cung-cap-dich-vu-vien-thong') Điểm cung cấp dịch vụ viễn thông công cộng
-                  li
-                    a(href='bao-cao-thong-ke?m=qh&l=cot-ang-ten') Cột ăngten
-                  li
-                    a(href='bao-cao-thong-ke?m=qh&l=cot-cap-treo') Cột cáp treo
-                  li
-                    a(href='bao-cao-thong-ke?m=qh&l=cong-trinh-ha-tang-ky-thuat-ngam') Các công trình hạ tầng kỹ thuật ngầm
         if(capabilities.some(function(s){return s.startsWith('QLTKNQ')}))
-          li
-            a(class=(path.endsWith('bao-cao-thong-ke')) && 'active-menu',href='#')
-              i.fa.fa-user-o
-              | Quản lý tài khoản và quyền
-              span.fa.arrow
-            ul.nav.nav-second-level
-              if(capabilities.indexOf('QLTKNQ-QLTK') !== -1)
-                li
-                  a(href='quan-ly-tai-khoan-nhom-quyen?m=tai-khoan') Quản lý tài khoản
-              if(capabilities.indexOf('QLTKNQ-QLNQ') !== -1)
-                li
-                  a(href='quan-ly-tai-khoan-nhom-quyen?m=nhom-quyen') Quản lý nhóm quyền
-              if(capabilities.some(function(s){return s.startsWith('QLTKNQ-QLKNTC')}))
-                li
-                  a(href='#')
-                    | Quản lý khả năng truy cập
-                    span.fa.arrow
-                  ul.nav.nav-third.level
-                    if(capabilities.indexOf('QLTKNQ-QLKNTC-CN-Q') !== -1||capabilities.indexOf('QLTKNQ-QLKNTC-CN-TK') !== -1)
-                      li 
-                        a(href='#')
-                          |Chức năng
-                          span.fa.arrow
-                        ul.nav.nav-four.level
-                          if(capabilities.indexOf('QLTKNQ-QLKNTC-CN-Q') !== -1)
-                            li
-                              a(href='quan-ly-tai-khoan-nhom-quyen?m=chuc-nang-quyen') Quyền
-                          if(capabilities.indexOf('QLTKNQ-QLKNTC-CN-TK') !== -1)
-                            li
-                              a(href='quan-ly-tai-khoan-nhom-quyen?m=chuc-nang-tai-khoan') Tài khoản
-                    if(capabilities.indexOf('QLTKNQ-QLKNTC-LDL-Q') !== -1||capabilities.indexOf('QLTKNQ-QLKNTC-LDL-TK') !== -1)
-                      li
-                        a(href='#')
-                          |Lớp dữ liệu
-                          span.fa.arrow
-                        ul.nav.nav-four.level
-                          if(capabilities.indexOf('QLTKNQ-QLKNTC-LDL-Q') !== -1)
-                            li
-                              a(href='quan-ly-tai-khoan-nhom-quyen?m=lop-du-lieu-quyen') Quyền
-                          if(capabilities.indexOf('QLTKNQ-QLKNTC-LDL-Q') !== -1)
-                            li
-                              a(href='quan-ly-tai-khoan-nhom-quyen?m=lop-du-lieu-tai-khoan') Tài khoản
-        if(capabilities.indexOf('XDTT'))
-          li
-            a(href='xem-don-truc-tuyen')
-              i.fa.fa-newspaper-o
-              | Xem đơn trực tuyến
-        if(capabilities.indexOf('TL') !== -1)
-          li
-            a(href='thiet-lap')
-              i.fa.fa-gear
-              |Thiết lập
+          if(capabilities.indexOf('QLTKNQ-QLTK') !== -1)
+            li
+              a(href='quan-ly-tai-khoan-nhom-quyen?m=tai-khoan') Quản lý tài khoản
+          if(capabilities.indexOf('QLTKNQ-QLNQ') !== -1)
+            li
+              a(href='quan-ly-tai-khoan-nhom-quyen?m=nhom-quyen') Quản lý nhóm quyền
+          if(capabilities.some(function(s){return s.startsWith('QLTKNQ-QLKNTC')}))
+            li
+              a(href='#')
+                | Quản lý khả năng truy cập
+                span.fa.arrow
+              ul.nav.nav-second-level
+                if(capabilities.indexOf('QLTKNQ-QLKNTC-CN-Q') !== -1||capabilities.indexOf('QLTKNQ-QLKNTC-CN-TK') !== -1)
+                  li 
+                    a(href='#')
+                      |Chức năng
+                      span.fa.arrow
+                    ul.nav.nav-third-level
+                      if(capabilities.indexOf('QLTKNQ-QLKNTC-CN-Q') !== -1)
+                        li
+                          a(href='quan-ly-tai-khoan-nhom-quyen?m=chuc-nang-quyen') Quyền
+                      if(capabilities.indexOf('QLTKNQ-QLKNTC-CN-TK') !== -1)
+                        li
+                          a(href='quan-ly-tai-khoan-nhom-quyen?m=chuc-nang-tai-khoan') Tài khoản
+                if(capabilities.indexOf('QLTKNQ-QLKNTC-LDL-Q') !== -1||capabilities.indexOf('QLTKNQ-QLKNTC-LDL-TK') !== -1)
+                  li
+                    a(href='#')
+                      |Lớp dữ liệu
+                      span.fa.arrow
+                    ul.nav.nav-third-level
+                      if(capabilities.indexOf('QLTKNQ-QLKNTC-LDL-Q') !== -1)
+                        li
+                          a(href='quan-ly-tai-khoan-nhom-quyen?m=lop-du-lieu-quyen') Quyền
+                      if(capabilities.indexOf('QLTKNQ-QLKNTC-LDL-Q') !== -1)
+                        li
+                          a(href='quan-ly-tai-khoan-nhom-quyen?m=lop-du-lieu-tai-khoan') Tài khoản
   #page-wrapper
     block content
 script(src='https://kendo.cdn.telerik.com/2017.3.1026/js/jquery.min.js')
