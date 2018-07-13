@@ -20,6 +20,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/sys_grouprole', rest);
 app.use('/sys_role', rest);
 app.use('/sys_account', rest);
+app.use('/sys_grouplayer', rest);
+app.use('/sys_layer', rest);
 app.use('/sys_capability', rest);
 app.use('/sys_capability_role', rest);
 app.use('/sys_capability_account', rest);

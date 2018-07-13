@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session')
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
+var appLogger = require('./modules/Logger').create();
 // const bcrypt = require('bcrypt');
 var app = express();
 var appRest = require('./rest/app');
@@ -39,7 +40,7 @@ app.use(passport.session());
 
 var loginRouter = require('./routes/login')(passport);
 app.use('/dang-nhap', loginRouter);
-app.use('/', function (req, res,next) {
+app.use('/', function (req, res, next) {
     if (!req.isAuthenticated()) {
       res.redirect('/dang-nhap');
     } else {
@@ -48,6 +49,18 @@ app.use('/', function (req, res,next) {
   },
   require('./routes/admin'));
 app.use('/rest', appRest);
+app.get('/logout', function (req, res) {
+  if (req.isAuthenticated()) {
+    appLogger.capabilityLogs([{
+      username: req.session.passport.user.Username,
+      tacVu: 'Đăng xuất'
+    }])
+    res.clearCookie('passport');
+    req.session.destroy();
+  }
+  res.redirect('/');
+  res.end();
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

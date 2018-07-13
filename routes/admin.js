@@ -41,6 +41,16 @@ router.get('/quan-ly-tai-khoan-nhom-quyen', function (req, res) {
             title: 'Quản lý tài khoản'
           });
         break;
+      case 'lop-du-lieu':
+        if (t === 'danhsach') {
+          accDB.getAll().then(rows => {
+            res.status(200).send(rows);
+          })
+        } else
+          render(req, res, 'quanlytaikhoannhomquyen/lopdulieu', {
+            title: 'Quản lý lớp dữ liệu'
+          });
+        break;
       case 'chuc-nang-quyen':
         if (t === 'danhsach') {
           var table = req.query['table'];

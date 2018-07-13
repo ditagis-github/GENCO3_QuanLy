@@ -11,7 +11,7 @@ module.exports = function (passport) {
 	})
 	passport.use(new LocalStrategy(
 		function (username, password, done) {
-			let md5Pwd = md5(password+'_DITAGIS');
+			let md5Pwd = md5(password + '_DITAGIS');
 			console.log(md5Pwd);
 			accountManager.isUser(username, md5Pwd)
 				.then(function (user) {
@@ -30,11 +30,8 @@ module.exports = function (passport) {
 	var router = require("express").Router();
 	router.get('/', function (req, res) {
 		if (req.session.passport && req.session.passport.user) {
-			let redirectTo = redirect(req);
-			if (redirectTo) {
-				res.redirect(redirectTo);
-				res.end();
-			}
+			res.redirect('/');
+			res.end();
 		}
 		res.render('login', {
 			title: 'Đăng nhập'
@@ -43,14 +40,24 @@ module.exports = function (passport) {
 
 	router.post('/', function (req, res, next) {
 		passport.authenticate('local', function (err, user, info) {
-			if (err) { return next(err); }
-			if (!user) { return res.render('login', { message: 'Tài khoản hoặc mật khẩu không đúng' }); }
+			if (err) {
+				return next(err);
+			}
+			if (!user) {
+				return res.render('login', {
+					message: 'Tài khoản hoặc mật khẩu không đúng'
+				});
+			}
 			req.logIn(user, function (err) {
-				if (err) { return next(err); }
+				if (err) {
+					return next(err);
+				}
 				if (user.Status === false) {
 					res.clearCookie('passport');
 					req.session.destroy();
-					return res.render('login', { message: 'Tài khoản của bạn chưa được kích hoạt hoặc đã khóa, bạn hãy liên lạc với người quản trị của hệ thống để cấp phép cho bạn.' });
+					return res.render('login', {
+						message: 'Tài khoản của bạn chưa được kích hoạt hoặc đã khóa, bạn hãy liên lạc với người quản trị của hệ thống để cấp phép cho bạn.'
+					});
 				}
 				appLogger.capabilityLogs([{
 					username: req.session.passport.user.Username,
@@ -60,5 +67,6 @@ module.exports = function (passport) {
 			});
 		})(req, res, next);
 	});
+
 	return router;
 };
