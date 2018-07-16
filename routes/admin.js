@@ -220,7 +220,7 @@ router.post('/quan-ly-tai-khoan-nhom-quyen', function (req, res) {
           Password = req.body['Password'],
           Role = req.body['Role'];
         if (Username && DisplayName && Password && Role) {
-          db.query(`INSERT INTO SYS_ACCOUNT (USERNAME,DISPLAYNAME,PASSWORD,ROLE) VALUES('${Username}',N'${DisplayName}','${md5(Password)}','${Role}')`).then(function (result) {
+          db.query(`INSERT INTO SYS_ACCOUNT (USERNAME,DISPLAYNAME,PASSWORD,ROLE) VALUES('${Username}',N'${DisplayName}','${Password}','${Role}')`).then(function (result) {
             res.status(200).send(req.body);
           }).catch(function () {
             res.status(400).send();
