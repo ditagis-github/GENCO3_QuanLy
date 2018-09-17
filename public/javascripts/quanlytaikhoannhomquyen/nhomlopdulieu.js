@@ -6,42 +6,39 @@ $(document).ready(function () {
                 text: 'Thêm'
             }],
             dataSource: {
-                group: [{
-                    field: 'GroupID'
-                }],
                 transport: {
                     destroy: {
-                        url: '/rest/sys_layer',
+                        url: '/rest/sys_grouplayer',
                         dataType: 'json',
                         type: 'delete'
                     },
                     update: {
-                        url: '/rest/sys_layer',
+                        url: '/rest/sys_grouplayer',
                         dataType: 'json',
                         type: 'put'
                     },
                     create: {
-                        url: "/rest/sys_layer",
+                        url: "/rest/sys_grouplayer",
                         dataType: "json",
                         type: 'post'
                     },
                     read: {
-                        url: '/rest/sys_layer',
+                        url: '/rest/sys_grouplayer',
                         dataType: "json"
                     },
-                    parameterMap: function (data, type) {
-                        if (type == "create") {
-                            // send the created data items as the "models" service parameter encoded in JSON
-                            return {
-                                ID: data.ID,
-                                Title: data.Title,
-                                Url: data.Url,
-                                GroupID: data.GroupID.ID,
-                                NumericalOder: data.NumericalOder
-                            }
-                        }
-                        return data;
-                    }
+                    // parameterMap: function (data, type) {
+                    //     if (type == "create") {
+                    //         // send the created data items as the "models" service parameter encoded in JSON
+                    //         return {
+                    //             ID: data.ID,
+                    //             Title: data.Title,
+                    //             Url: data.Url,
+                    //             GroupID: data.GroupID.ID,
+                    //             NumericalOder: data.NumericalOder
+                    //         }
+                    //     }
+                    //     return data;
+                    // }
                 },
                 schema: {
                     model: {
@@ -72,18 +69,8 @@ $(document).ready(function () {
                 field: 'ID',
                 title: 'Mã',
             }, {
-                field: 'Title',
+                field: 'Name',
                 title: 'Tên hiển thị'
-            }, {
-                field: 'Url',
-                title: 'Đường dẫn'
-            }, {
-                field: 'GroupID',
-                title: 'Nhóm',
-                editor: categoryDropDownEditor
-            }, {
-                field: 'NumericalOder',
-                title: 'Thứ tự'
             }, {
                 field: 'action',
                 title: 'Tác vụ',
@@ -107,20 +94,3 @@ $(document).ready(function () {
         .data('kendoGrid');
 
 })
-
-function categoryDropDownEditor(container, options) {
-    $('<input required data-bind="value:' + options.field + '"/>')
-        .appendTo(container)
-        .kendoDropDownList({
-            dataTextField: "Name",
-            dataValueField: "ID",
-            dataSource: {
-                transport: {
-                    read: {
-                        url: "/rest/sys_grouplayer",
-                        dataType: "json"
-                    }
-                },
-            }
-        });
-}

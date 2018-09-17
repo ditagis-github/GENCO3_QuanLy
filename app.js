@@ -9,6 +9,7 @@ var session = require('express-session')
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var appLogger = require('./modules/Logger').create();
+var applyEditsRouter = require('./routes/applyEdits');
 // const bcrypt = require('bcrypt');
 var app = express();
 var appRest = require('./rest/app');
@@ -41,7 +42,21 @@ app.use(passport.session());
 var loginRouter = require('./routes/login')(passport);
 app.use('/dang-nhap', loginRouter);
 app.use('/', function (req, res, next) {
-    if (!req.isAuthenticated()) {
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    if (!req.isAuthenticated() && req.originalUrl !== '/applyEdits') {
       res.redirect('/dang-nhap');
     } else {
       next();
@@ -60,7 +75,9 @@ app.get('/logout', function (req, res) {
   }
   res.redirect('/');
   res.end();
-})
+});
+
+app.use('/applyEdits', applyEditsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

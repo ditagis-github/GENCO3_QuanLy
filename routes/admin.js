@@ -42,14 +42,14 @@ router.get('/quan-ly-tai-khoan-nhom-quyen', function (req, res) {
           });
         break;
       case 'lop-du-lieu':
-        if (t === 'danhsach') {
-          accDB.getAll().then(rows => {
-            res.status(200).send(rows);
-          })
-        } else
-          render(req, res, 'quanlytaikhoannhomquyen/lopdulieu', {
-            title: 'Quản lý lớp dữ liệu'
-          });
+        render(req, res, 'quanlytaikhoannhomquyen/lopdulieu', {
+          title: 'Quản lý lớp dữ liệu'
+        });
+        break;
+      case 'nhom-lop-du-lieu':
+        render(req, res, 'quanlytaikhoannhomquyen/nhomlopdulieu', {
+          title: 'Quản lý nhóm lớp dữ liệu'
+        });
         break;
       case 'chuc-nang-quyen':
         if (t === 'danhsach') {
@@ -225,7 +225,7 @@ router.post('/quan-ly-tai-khoan-nhom-quyen', function (req, res) {
           }).catch(function () {
             res.status(400).send();
           })
-        }else{
+        } else {
           res.status(400).send('Không đủ tham số');
         }
         break;

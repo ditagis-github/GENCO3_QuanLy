@@ -5,7 +5,6 @@ head
   meta(http-equiv='X-UA-Compatible', content='IE=edge')
   meta(name='apple-mobile-web-app-capable', content='yes')
   meta(name='apple-mobile-web-app-status-bar-style', content='black-translucent')
-  meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
   title #{title} - GENCO3
   link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
   link(rel='stylesheet', href='/stylesheets/font-awesome.css')
@@ -66,6 +65,9 @@ head
           if(capabilities.indexOf('QLTKNQ-QLTK') !== -1)
             li
               a(href='quan-ly-tai-khoan-nhom-quyen?m=tai-khoan') Quản lý tài khoản
+          if(capabilities.indexOf('QLTKNQ-NLDL') !== -1)
+            li
+              a(href='quan-ly-tai-khoan-nhom-quyen?m=nhom-lop-du-lieu') Quản lý nhóm lớp dữ liệu
           if(capabilities.indexOf('QLTKNQ-LDL') !== -1)
             li
               a(href='quan-ly-tai-khoan-nhom-quyen?m=lop-du-lieu') Quản lý lớp dữ liệu
