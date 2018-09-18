@@ -64,6 +64,9 @@ $(document).ready(function () {
                             IsDelete: {
                                 type: 'boolean'
                             },
+                            IsVisible: {
+                                type: 'boolean'
+                            },
                         }
                     }
                 }
@@ -123,10 +126,15 @@ $(document).ready(function () {
             width: 80,
             template: "#= IsEdit ? 'Có' : 'Không' #"
         }, {
+            field: 'IsVisible',
+            title: 'Hiển thị',
+            width: 80,
+            template: "#= IsVisible ? 'Có' : 'Không' #"
+        }, {
             field: 'OutFields',
             title: 'Thuộc tính',
             width: 120
-        },{
+        }, {
             field: 'Definition',
             title: 'Truy vấn',
             width: 120

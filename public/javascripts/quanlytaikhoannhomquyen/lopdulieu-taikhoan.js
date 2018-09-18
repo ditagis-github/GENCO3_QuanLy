@@ -4,7 +4,10 @@ $(document).ready(function () {
         dataTextField: 'DisplayName',
         dataValueField: 'ID',
         dataSource: new kendo.data.DataSource({
-            sort: { field: "DisplayName", dir: "asc" },
+            sort: {
+                field: "DisplayName",
+                dir: "asc"
+            },
             transport: {
                 read: {
                     url: "/rest/sys_account",
@@ -18,7 +21,10 @@ $(document).ready(function () {
                 group: [{
                     field: 'LayerGroup',
                 }],
-                sort: { field: "LayerName", dir: "asc" },
+                sort: {
+                    field: "LayerName",
+                    dir: "asc"
+                },
                 transport: {
                     destroy: {
                         type: 'delete',
@@ -56,6 +62,9 @@ $(document).ready(function () {
                                 type: 'boolean'
                             },
                             IsDelete: {
+                                type: 'boolean'
+                            },
+                            IsVisible: {
                                 type: 'boolean'
                             }
                         }
@@ -100,23 +109,28 @@ $(document).ready(function () {
             field: 'IsCreate',
             title: 'Tạo',
             width: 80,
-            template:"#= IsCreate ? 'Có' : 'Không' #"
+            template: "#= IsCreate ? 'Có' : 'Không' #"
         }, {
             field: 'IsView',
             title: 'Xem',
             width: 80,
-            template:"#= IsView ? 'Có' : 'Không' #"
+            template: "#= IsView ? 'Có' : 'Không' #"
         }, {
             field: 'IsDelete',
             title: 'Xóa',
             width: 80,
-            template:"#= IsDelete ? 'Có' : 'Không' #"
+            template: "#= IsDelete ? 'Có' : 'Không' #"
         }, {
             field: 'IsEdit',
             title: 'Sửa',
             width: 80,
-            template:"#= IsEdit ? 'Có' : 'Không' #"
-        },{
+            template: "#= IsEdit ? 'Có' : 'Không' #"
+        }, {
+            field: 'IsVisible',
+            title: 'Hiển thị',
+            width: 80,
+            template: "#= IsVisible ? 'Có' : 'Không' #"
+        }, {
             field: 'OutFields',
             title: 'Thuộc tính',
             width: 120
@@ -138,7 +152,7 @@ $(document).ready(function () {
             }, ]
         }]
     }).data('kendoGrid');
-    
+
     $('#btnToolbar').click(function (e) {
         kendo.ui.progress($('#table'), true)
         let id = listbox.dataItem(listbox.select())['Username'];
