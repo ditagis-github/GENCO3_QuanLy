@@ -1,4 +1,17 @@
 var grid, listbox;
+
+function toggleAll(target, group, fieldName) {
+    // e = window.event;
+    var checked = $(target).prop('checked');
+    if (grid) {
+        grid.dataSource
+            .data()
+            .filter(f => f.LayerGroup === group)
+            .forEach(function (d) {
+                d.set(fieldName, checked);
+            });
+    }
+}
 $(document).ready(function () {
     listbox = $('#listbox').kendoListBox({
         dataTextField: 'Name',
@@ -75,6 +88,9 @@ $(document).ready(function () {
     }).data('kendoListBox');
     grid = $('#table').kendoGrid({
         toolbar: [{
+            name: 'save',
+            text: 'Lưu'
+        }, {
             template: '<a class="k-button" id="btnToolbar" href="javascript:void(0)" >Cập nhật</a>'
         }],
         editable: 'inline',
@@ -96,61 +112,64 @@ $(document).ready(function () {
             }
         },
         columns: [{
-            field: 'ID',
-            hidden: true
-        }, {
-            field: 'LayerGroup',
-            title: 'Nhóm dữ liệu',
-            hidden: true
-        }, {
-            field: 'LayerName',
-            title: 'Tên'
-        }, {
-            field: 'IsCreate',
-            title: 'Tạo',
-            width: 80,
-            template: "#= IsCreate ? 'Có' : 'Không' #"
-        }, {
-            field: 'IsView',
-            title: 'Xem',
-            width: 80,
-            template: "#= IsView ? 'Có' : 'Không' #"
-        }, {
-            field: 'IsDelete',
-            title: 'Xóa',
-            width: 80,
-            template: "#= IsDelete ? 'Có' : 'Không' #"
-        }, {
-            field: 'IsEdit',
-            title: 'Sửa',
-            width: 80,
-            template: "#= IsEdit ? 'Có' : 'Không' #"
-        }, {
-            field: 'IsVisible',
-            title: 'Hiển thị',
-            width: 80,
-            template: "#= IsVisible ? 'Có' : 'Không' #"
-        }, {
-            field: 'OutFields',
-            title: 'Thuộc tính',
-            width: 120
-        }, {
-            field: 'Definition',
-            title: 'Truy vấn',
-            width: 120
-        }, {
-            field: 'action',
-            title: 'Tác vụ',
-            command: [{
-                name: 'edit',
-                iconClass: '',
-                text: {
-                    edit: "Chỉnh sửa",
-                    cancel: "Hủy",
-                    update: "Cập nhật"
-                }
-            }, ]
-        }]
+                field: 'ID',
+                hidden: true
+            }, {
+                field: 'LayerGroup',
+                title: 'Nhóm dữ liệu',
+                groupHeaderTemplate: '#= value # | Tạo <input type="checkbox" onclick="toggleAll(this,\'#= value #\',\'IsCreate\')"/> | Xem <input type="checkbox" onclick="toggleAll(this,\'#= value #\',\'IsView\')"/> | Xóa <input type="checkbox" onclick="toggleAll(this,\'#= value #\',\'IsDelete\')"/> | Sửa <input type="checkbox" onclick="toggleAll(this,\'#= value #\',\'IsEdit\')" /> | Hiển thị <input type="checkbox" onclick="toggleAll(this,\'#= value #\',\'IsVisible\')" />',
+                hidden: true,
+            }, {
+                field: 'LayerName',
+                title: 'Tên'
+            }, {
+                field: 'IsCreate',
+                title: 'Tạo',
+                width: 80,
+                template: "#= IsCreate ? 'Có' : 'Không' #",
+            }, {
+                field: 'IsView',
+                title: 'Xem',
+                width: 80,
+                template: "#= IsView ? 'Có' : 'Không' #"
+            }, {
+                field: 'IsDelete',
+                title: 'Xóa',
+                width: 80,
+                template: "#= IsDelete ? 'Có' : 'Không' #"
+            }, {
+                field: 'IsEdit',
+                title: 'Sửa',
+                width: 80,
+                template: "#= IsEdit ? 'Có' : 'Không' #"
+            }, {
+                field: 'IsVisible',
+                title: 'Hiển thị',
+                width: 80,
+                template: "#= IsVisible ? 'Có' : 'Không' #"
+            }, {
+                field: 'OutFields',
+                title: 'Thuộc tính',
+                width: 120
+            }, {
+                field: 'Definition',
+                title: 'Truy vấn',
+                width: 120
+            },
+            // {
+            //     field: 'action',
+            //     title: 'Tác vụ',
+            //     command: [{
+            //         name: 'edit',
+            //         iconClass: '',
+            //         text: {
+            //             edit: "Chỉnh sửa",
+            //             cancel: "Hủy",
+            //             update: "Cập nhật"
+            //         }
+            //     }, ]
+            // }
+        ]
     }).data('kendoGrid');
 
     $('#btnToolbar').click(function (e) {

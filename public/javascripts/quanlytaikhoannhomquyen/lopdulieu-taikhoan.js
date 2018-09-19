@@ -1,4 +1,18 @@
 var grid, listbox;
+
+function toggleAll(target, group, fieldName) {
+    // e = window.event;
+    var checked = $(target).prop('checked');
+    if (grid) {
+        grid.dataSource
+            .data()
+            .filter(f => f.LayerGroup === group)
+            .forEach(function (d) {
+                d.set(fieldName, checked);
+            });
+    }
+}
+
 $(document).ready(function () {
     listbox = $('#listbox').kendoListBox({
         dataTextField: 'DisplayName',
@@ -75,6 +89,9 @@ $(document).ready(function () {
     }).data('kendoListBox');
     grid = $('#table').kendoGrid({
         toolbar: [{
+            name: 'save',
+            text: 'Lưu'
+        }, {
             template: '<a class="k-button" id="btnToolbar" href="javascript:void(0)" >Cập nhật</a>'
         }],
         editable: 'inline',
@@ -101,7 +118,8 @@ $(document).ready(function () {
         }, {
             field: 'LayerGroup',
             title: 'Nhóm dữ liệu',
-            hidden: true
+            hidden: true,
+            groupHeaderTemplate: '#= value # | Tạo <input type="checkbox" onclick="toggleAll(this,\'#= value #\',\'IsCreate\')"/> | Xem <input type="checkbox" onclick="toggleAll(this,\'#= value #\',\'IsView\')"/> | Xóa <input type="checkbox" onclick="toggleAll(this,\'#= value #\',\'IsDelete\')"/> | Sửa <input type="checkbox" onclick="toggleAll(this,\'#= value #\',\'IsEdit\')" /> | Hiển thị <input type="checkbox" onclick="toggleAll(this,\'#= value #\',\'IsVisible\')" />',
         }, {
             field: 'LayerName',
             title: 'Tên'
